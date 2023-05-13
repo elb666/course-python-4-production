@@ -112,6 +112,20 @@ class DataReader:
         }
         """
     ######################################## YOUR CODE HERE ##################################################
+        
+        with open(self._fp, "r") as data_file:
+
+            record = {}
+
+            # skip the first line (column names)
+            _ = data_file.readline()
+
+            for line in data_file:
+                values = [field.strip() for field in line.split(self._sep)]
+                record = dict(zip(self._col_names, values))
+
+                yield record
+
 
     ######################################## YOUR CODE HERE ##################################################
 
@@ -120,4 +134,3 @@ class DataReader:
 
     def get_column_names(self):
         return self._col_names
-

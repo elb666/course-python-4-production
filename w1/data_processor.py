@@ -79,5 +79,19 @@ class DataProcessor:
         aggregate should be 105.58
         """
         ######################################## YOUR CODE HERE ##################################################
+        # get generator from data_reader
+        data_reader_gen = (row for row in self.data_reader)
+
+        aggregate = float(0)
+
+        # skip first row as it is the column name
+        # _ = next(data_reader_gen)
+
+        for record in data_reader_gen:
+            aggregate += DataProcessor.to_float(record[column_name])
+
+        return aggregate
+
+
 
         ######################################## YOUR CODE HERE ##################################################

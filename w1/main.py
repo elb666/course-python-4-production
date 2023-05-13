@@ -45,13 +45,28 @@ def revenue_per_region(dp: DataProcessor) -> Dict:
     """
     ######################################## YOUR CODE HERE ##################################################
 
+    region_col = 'Country'
+
+    data_reader_gen = (row for row in dp.data_reader)
+
+    output = {}
+
+    for record in data_reader_gen:
+        if record[region_col] in output.keys():
+            output[record[region_col]] += DataProcessor.to_float(record['TotalPrice'])
+        else:
+            output[record[region_col]] = DataProcessor.to_float(record['TotalPrice'])
+
+    print(output)
+    return output
+
     ######################################## YOUR CODE HERE ##################################################
 
 
 def get_sales_information(file_path: str) -> Dict:
     # Initialize
     dp = DataProcessor(file_path=file_path)
-
+ 
     # print stats
     dp.describe(column_names=[constants.OutDataColNames.UNIT_PRICE, constants.OutDataColNames.TOTAL_PRICE])
 
@@ -64,10 +79,10 @@ def get_sales_information(file_path: str) -> Dict:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Choose from one of these : [tst|sml|bg]")
+    parser = argparse.ArgumentParser(description="Choose from one of these : [tst|sml|bg|micro]")
     parser.add_argument('--type',
                         default='tst',
-                        choices=['tst', 'sml', 'bg'],
+                        choices=['tst', 'sml', 'bg', 'micro'],
                         help='Type of data to generate')
     args = parser.parse_args()
 
@@ -79,8 +94,7 @@ def main():
     make_dir(output_save_folder)
 
     file_paths = [os.path.join(data_folder_path, file_name) for file_name in files]
-    revenue_data = [get_sales_information(file_path)
-                    for file_path in file_paths]
+    revenue_data = [get_sales_information(file_path) for file_path in file_paths]
 
     pprint(revenue_data)
 

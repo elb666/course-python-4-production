@@ -18,4 +18,7 @@ PYTHONPATH=../ python main.py --type sml
 
 # Run on the `big` data
 PYTHONPATH=../ python main.py --type bg
+
+# Run on the `micro` data
+PYTHONPATH=../ python main.py --type micro
 ````
