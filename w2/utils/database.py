@@ -37,6 +37,7 @@ class DB:
 
         - process_id : TEXT (not null)
         - file_name : TEXT (default is null)
+        - file_path : TEXT (default is null)
         - description : TEXT (default is null)
         - start_time : TEXT (not null)
         - end_time : TEXT (default is null)
@@ -45,6 +46,21 @@ class DB:
         Read more about datatypes in Sqlite here -> https://www.sqlite.org/datatype3.html
         """
     ######################################## YOUR CODE HERE ##################################################
+        cursor = self._connection.cursor()
+
+        create_table_stmt = f"""
+        CREATE TABLE IF NOT EXISTS {self._table_name} (
+                process_id TEXT NOT NULL,
+                file_name TEXT,
+                file_path TEXT,
+                description TEXT,
+                start_time TEXT NOT NULL,
+                end_time TEXT,
+                percentage REAL
+                )
+        """
+
+        cursor.execute(create_table_stmt)
 
     ######################################## YOUR CODE HERE ##################################################
 
@@ -63,6 +79,13 @@ class DB:
         :return: None
         """
     ######################################## YOUR CODE HERE ##################################################
+        cursor = self._connection.cursor()
+
+        insert_stmt = f'INSERT INTO {self._table_name} ({",".join(self._col_order)}) VALUES (?, ?, ?, ?, ?, ?, ?)'
+
+        cursor.execute(insert_stmt, (process_id, file_name, file_path, description, start_time, end_time, percentage) )
+
+        self._connection.commit()
 
     ######################################## YOUR CODE HERE ##################################################
 
@@ -95,6 +118,13 @@ class DB:
         :return: None
         """
     ######################################## YOUR CODE HERE ##################################################
+        cursor = self._connection.cursor()
+
+        update_stmt = f"UPDATE {self._table_name} SET percentage = ? WHERE process_id = ?"
+
+        cursor.execute(update_stmt, (percentage, process_id))
+
+        self._connection.commit()
 
     ######################################## YOUR CODE HERE ##################################################
 
