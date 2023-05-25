@@ -83,6 +83,7 @@ def run(file_names: List[str], n_process: int) -> List[Dict]:
     st = time.time()
 
     print("Process : {}".format(n_process))
+    print(f"************** Process : {n_process} has {len(file_names)}*************")
     folder_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
     file_paths = [os.path.join(folder_path, file_name) for file_name in file_names]
     revenue_data = [get_sales_information(file_path) for file_path in file_paths]
@@ -165,6 +166,18 @@ def main() -> List[Dict]:
 
     ######################################## YOUR CODE HERE ##################################################
 
+
+    # create a process for each batch in batches that executes `run`
+    processes = []
+    for i, batch in enumerate(batches):
+        process = multiprocessing.Process(target=run, args=(batch, i))
+        processes.append(process)
+
+    for process in processes:
+        process.start()
+
+    for process in processes:
+        process.join()
     ######################################## YOUR CODE HERE ##################################################
 
     en = time.time()
