@@ -167,17 +167,21 @@ def main() -> List[Dict]:
     ######################################## YOUR CODE HERE ##################################################
 
 
-    # create a process for each batch in batches that executes `run`
-    processes = []
-    for i, batch in enumerate(batches):
-        process = multiprocessing.Process(target=run, args=(batch, i))
-        processes.append(process)
+    # # for each batch in batches create a process that executes `run`
+    # processes = []
+    # for i, batch in enumerate(batches):
+    #     process = multiprocessing.Process(target=run, args=(batch, i))
+    #     processes.append(process)
+    #
+    # for process in processes:
+    #     process.start()
+    #
+    # for process in processes:
+    #     process.join()
 
-    for process in processes:
-        process.start()
+    # TODO: do the same thing using `pool` and `starmap `
 
-    for process in processes:
-        process.join()
+
     ######################################## YOUR CODE HERE ##################################################
 
     en = time.time()
